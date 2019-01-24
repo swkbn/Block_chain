@@ -175,6 +175,7 @@ func (bc *BlockChain) Print2() {
 		//fmt.Printf("IsValid : %v\n", pow.IsValid())
 		//fmt.Println(pow)
 		fmt.Printf("区块数据: %s\n", block.Transactions[0].TXOutputs[0].ScriptPubKey)
+		fmt.Printf("挖矿或得奖励：%fBTC\n",block.Transactions[0].TXOutputs[0].Value)
 
 		//终止条件，当前区块的前哈希为空(nil)
 		//if block.PrevBlockHash == nil
