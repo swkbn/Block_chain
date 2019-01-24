@@ -17,7 +17,7 @@ func (cli *CLI)addBlock(data string)  {
 		return
 	}
 	defer bc.db.Close()
-	bc.AddBlock(data)
+	//bc.AddBlock(data)
 
 }
 

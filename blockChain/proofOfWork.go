@@ -64,7 +64,8 @@ func (pow *ProofOfWork)prepareData(nonce uint64)[]byte  {
 		uint2Bytes(b.TimeStamp),
 		uint2Bytes(b.Bits),
 		uint2Bytes(nonce),
-		b.Data,
+		//b.Data,
+		//TODO 美克尔根
 	}
 	blockInfo:=bytes.Join(tmp,[]byte{})
 	return blockInfo

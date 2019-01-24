@@ -49,8 +49,11 @@ func CreateBlockChain()*BlockChain  {
 			if err!=nil {
 				panic(err)
 			}
+
+			coinbaseTX:=NewCinbaseTX(genesisInfo,"中本聪")
+
 			//将创世块写入bucket中
-			genesisBlock:=NewBlock(genesisInfo,[]byte{})
+			genesisBlock:=NewBlock([]*Transaction{coinbaseTX},[]byte{})
 			//更新区块2更新lastHashKey的值
 			b.Put(genesisBlock.Hash,genesisBlock.Serialize()/*区块的字节流*/)
 			b.Put([]byte(lastHashKey),genesisBlock.Hash)
@@ -89,15 +92,15 @@ func GetBlockChain()*BlockChain  {
 	return &bc
 }
 //添加区块
-func (bc *BlockChain)AddBlock(data string)bool  {
+/*func (bc *BlockChain)AddBlock(data string)bool  {
 	//创建一个区块，前区块的哈希值从bc的最后一个块元素即可获取
-	/*lasBlock :=bc.Blocks[len(bc.Blocks)-1]//获取最后一个区块
+	*//*lasBlock :=bc.Blocks[len(bc.Blocks)-1]//获取最后一个区块
 	//即将添加的区块的前哈希值，就是bc中的最后区块的Hahs字段的值
 	prevHash:=lasBlock.Hash
 	//创建一个新的区块
 	newBlock:=NewBlock(data,prevHash)
 	//append到区块莲的Blocks数组中
-	bc.Blocks=append(bc.Blocks,newBlock)*/
+	bc.Blocks=append(bc.Blocks,newBlock)*//*
 	err:=bc.db.Update(func(tx *bolt.Tx) error {
 		b:=tx.Bucket([]byte(blockBucket))
 		if b==nil {
@@ -106,10 +109,10 @@ func (bc *BlockChain)AddBlock(data string)bool  {
 			os.Exit(1)
 		}
 		prevHash:=bc.tail
-		newBlock:=NewBlock(data,prevHash)
+		newBlock:=NewBlock(,prevHash)
 		//更新区块ls
 		// ，更新lastHashKey的值
-		err:=b.Put(newBlock.Hash,newBlock.Serialize()/*区块的字节流*/)
+		err:=b.Put(newBlock.Hash,newBlock.Serialize()*//*区块的字节流*//*)
 		if err!=nil {
 			return err
 		}
@@ -127,7 +130,7 @@ func (bc *BlockChain)AddBlock(data string)bool  {
 		return false
 	}
 	return true
-}
+}*/
 //使用bolt字节的ForEach来打印区块连
 
 func (bc*BlockChain)print1()  {
@@ -142,7 +145,6 @@ func (bc*BlockChain)print1()  {
 	})
 }
 //使用我们自己实现的迭代器便利区块链
-
 //使用我们自己实现的迭代器遍历区块链
 func (bc *BlockChain) Print2() {
 	//1. 创建一个迭代器
@@ -169,10 +171,10 @@ func (bc *BlockChain) Print2() {
 		fmt.Printf("难度值: %d\n", block.Bits)
 		fmt.Printf("随机数: %d\n", block.Nonce)
 
-		pow := NewProofOfWork(block)
+		//pow := NewProofOfWork(block)
 		//fmt.Printf("IsValid : %v\n", pow.IsValid())
-		fmt.Println(pow)
-		fmt.Printf("区块数据: %s\n", block.Data)
+		//fmt.Println(pow)
+		fmt.Printf("区块数据: %s\n", block.Transactions[0].TXOutputs[0].ScriptPubKey)
 
 		//终止条件，当前区块的前哈希为空(nil)
 		//if block.PrevBlockHash == nil

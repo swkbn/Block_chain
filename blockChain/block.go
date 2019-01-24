@@ -28,12 +28,14 @@ type Block struct {
 	//随机数(挖矿要求的值)
 	Nonce uint64
 	//数据
-	Data []byte
+	//Data []byte
+
+	Transactions []*Transaction
 }
 
 //创建区块
 
-func NewBlock(data string,prevBlockHash []byte) *Block {
+func NewBlock(txs []*Transaction,prevBlockHash []byte) *Block {
 	block:=Block{
 		Version:01,
 		PrevBlockHash:prevBlockHash,
@@ -42,7 +44,9 @@ func NewBlock(data string,prevBlockHash []byte) *Block {
 		TimeStamp:uint64(time.Now().Unix()),
 		Bits:bits,
 		Nonce:0,
-		Data:[]byte(data),
+		//Data:[]byte(da),
+		Transactions:txs,
+
 	}
 	//设置哈希值
 	//block.setHash()
